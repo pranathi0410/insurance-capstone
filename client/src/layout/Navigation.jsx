@@ -12,7 +12,7 @@ const Navigation = () => {
 
   let menuItems = [];
   if (user?.role === 'ADMIN') {
-    menuItems.push({ label: 'Users List', path: '/admin', icon: '⚙️' });
+    menuItems.push({ label: 'Users List', path: '/admin/users', icon: '⚙️' });
     menuItems.push({ label: 'Audit Logs', path: '/admin/audit-logs', icon: '📜' });
     menuItems.push({ label: 'Policies', path: '/policy', icon: '📋' });
     menuItems.push({ label: 'Claims', path: '/claims', icon: '💼' });
@@ -39,14 +39,14 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-16">
 
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
+          <div className="flex items-center space-x-3">
             <div className="w-9 h-9 bg-gradient-to-r from-indigo-600 to-cyan-500 rounded-xl flex items-center justify-center shadow-md">
               <span className="text-white font-bold text-lg">I</span>
             </div>
             <span className="text-lg font-bold text-white tracking-wide">
               Insure<span className="text-indigo-400">Sphere</span>
             </span>
-          </Link>
+          </div>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-2">

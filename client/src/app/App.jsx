@@ -10,6 +10,7 @@ import LoginPage from '../features/auth/LoginPage';
 import ProtectedRoute from '../layout/ProtectedRoute';
 import Navigation from '../layout/Navigation';
 import RegisterPage from '../features/auth/RegisterPage';
+import LandingPage from "../features/public/LandingPage";
 
 const AppContent = () => {
   const { user } = useAuth();
@@ -17,17 +18,36 @@ const AppContent = () => {
   return (
     <>
       {user && <Navigation />}
-      <Routes>
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage  />} />
-        {/* Remove dashboard for underwriter and claims adjuster, redirect to /policy or /claims */}
-        <Route path="/" element={<ProtectedRoute>{user?.role === 'UNDERWRITER' ? <Navigate to="/policy" /> : user?.role === 'CLAIMS_ADJUSTER' ? <Navigate to="/claims" /> : <Dashboard />}</ProtectedRoute>} />
-        <Route path="/policy/*" element={<ProtectedRoute><PolicyRoutes /></ProtectedRoute>} />
-        <Route path="/claims/*" element={<ProtectedRoute><ClaimsRoutes /></ProtectedRoute>} />
-        <Route path="/reinsurance/*" element={<ProtectedRoute><ReinsuranceRoutes /></ProtectedRoute>} />
-        <Route path="/admin/*" element={<ProtectedRoute><AdminRoutes /></ProtectedRoute>} />
+     <Routes>
 
-      </Routes>
+  {/* Public routes */}
+  <Route path="/" element={<LandingPage />} />
+  <Route path="/login" element={<LoginPage />} />
+  <Route path="/register" element={<RegisterPage />} />
+
+  {/* Dashboard */}
+  <Route
+    path="/dashboard"
+    element={
+      <ProtectedRoute>
+        {user?.role === "UNDERWRITER" ? (
+          <Navigate to="/policy" />
+        ) : user?.role === "CLAIMS_ADJUSTER" ? (
+          <Navigate to="/claims" />
+        ) : (
+          <Dashboard />
+        )}
+      </ProtectedRoute>
+    }
+  />
+
+  {/* Feature routes */}
+  <Route path="/policy/*" element={<ProtectedRoute><PolicyRoutes /></ProtectedRoute>} />
+  <Route path="/claims/*" element={<ProtectedRoute><ClaimsRoutes /></ProtectedRoute>} />
+  <Route path="/reinsurance/*" element={<ProtectedRoute><ReinsuranceRoutes /></ProtectedRoute>} />
+  <Route path="/admin/*" element={<ProtectedRoute><AdminRoutes /></ProtectedRoute>} />
+
+</Routes>
     </>
   );
 };

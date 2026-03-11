@@ -23,8 +23,22 @@ const LoginPage = () => {
         _id: res.data.user.id
       };
 
-      login(userObj, res.data.token);
-      navigate('/');
+     login(userObj, res.data.token);
+
+const role = userObj.role;
+
+if (role === "ADMIN") {
+  navigate("/admin/users");
+}
+else if (role === "UNDERWRITER") {
+  navigate("/policies");
+} 
+else if (role === "CLAIMS_ADJUSTER") {
+  navigate("/claims");
+} 
+else {
+  navigate("/");
+}
     } catch (err) {
       setError(err.response?.data?.message || 'Invalid credentials');
     } finally {
